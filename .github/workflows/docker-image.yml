@@ -79,11 +79,15 @@ jobs:
             ${{ env.IMAGE_FRONTEND }}:latest
             ${{ env.IMAGE_FRONTEND }}:${{ github.sha }}
 
-      # 🚀 Desplegar automáticamente en Render
+            # 🚀 Enviar a Render (deploy automático backend)
       - name: Enviar a Render
-        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_BACKEND}}&imageUrl=${{secrets.DOCKERHUB_USERNAME}}/delilunch-backend-sarmiento:latest"
-        # curl viene con ubuntu es para abrir http osea links
-        # -X es para que sea una peticion
-        # POST es de http que es para eviar datos (chekear)
+        if: success()
+        run: |
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}?imageUrl=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/delilunch-backend-sarmiento:latest"
+        # curl viene con ubuntu, se usa para hacer peticiones HTTP
+        # -X POST indica que es una solicitud POST (para enviar datos)
+        # Render recibe la URL con el parámetro imageUrl que apunta a tu imagen más reciente en Docker Hub
+
+  
 
 
