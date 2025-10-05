@@ -30,9 +30,6 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile
           push: false
-          build-args: |
-            NEW_RELIC_APP_NAME=${{ secrets.NEW_RELIC_APP_NAME }}
-            NEW_RELIC_LICENSE_KEY=${{ secrets.NEW_RELIC_LICENSE_KEY }}
 
       - name: Build frontend image (no push)
         uses: docker/build-push-action@v6
@@ -67,9 +64,6 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile
           push: true
-          build-args: |
-            NEW_RELIC_APP_NAME=${{ secrets.NEW_RELIC_APP_NAME }}
-            NEW_RELIC_LICENSE_KEY=${{ secrets.NEW_RELIC_LICENSE_KEY }}
           tags: |
             ${{ env.IMAGE_BACKEND }}:latest
             ${{ env.IMAGE_BACKEND }}:${{ github.sha }}
@@ -85,9 +79,10 @@ jobs:
             ${{ env.IMAGE_FRONTEND }}:latest
             ${{ env.IMAGE_FRONTEND }}:${{ github.sha }}
 
-      # 🚀 Desplegar automáticamente en Render (cuando lo configures)
+      # 🚀 Desplegar automáticamente en Render
       - name: Trigger Render Deploy
         if: success()
         run: |
           curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}?imageUrl=docker.io/${{ env.IMAGE_BACKEND }}:latest"
+
 
