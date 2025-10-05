@@ -81,7 +81,7 @@ jobs:
 
       # 🚀 Desplegar automáticamente en Render
       - name: Enviar a Render
-        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_BACKEND}}&imageUrl=${{secrets.DOCKERHUB_USERNAME}}/deli-backend-sarmiento:latest"
+        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_BACKEND}}&imageUrl=${{secrets.DOCKERHUB_USERNAME}}/delilunch-backend-sarmiento:latest"
         # curl viene con ubuntu es para abrir http osea links
         # -X es para que sea una peticion
         # POST es de http que es para eviar datos (chekear)
